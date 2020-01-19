@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clock_oleg/provider/provider_main.dart';
 import 'package:clock_oleg/model/time_model.dart';
+import 'package:clock_oleg/model/audio_model.dart';
 
 
 void main() {
@@ -42,6 +43,11 @@ class Clock extends StatelessWidget {
                 return Text("Minutes:" + minutes.minutesNow.toString());
               },
             ),
+            Consumer<AudioModel>(
+              builder: (context,data,_){
+                return FloatingActionButton(onPressed: ()=> data.play(48));
+              },
+            )
 
 
           ],

@@ -1,24 +1,28 @@
 import 'dart:async';
 import 'package:rxdart/subjects.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
+import 'package:clock_oleg/model/audio_model.dart';
 
 class TimeModel {
+  int _minutes;
+  int _hour;
   Timer timer;
-  BehaviorSubject<CurrentHourO> currentHourO$ =
-  BehaviorSubject<CurrentHourO>();
+  BehaviorSubject<CurrentHourO> currentHourO$ = BehaviorSubject<CurrentHourO>();
   BehaviorSubject<CurrentMinutesO> currentMinutes$ =
       BehaviorSubject<CurrentMinutesO>();
 
-  TimeModel(){
-
-    timer = Timer.periodic(Duration(seconds: 10), (timer) => _updateTime());
-
+  TimeModel() {
+    timer = Timer.periodic(Duration(seconds: 5), (timer) => _updateTime());
   }
 
-  _updateTime(){
+  _updateTime() {
+    _minutes = DateTime.now().minute;
+    _hour = DateTime.now().hour;
     currentHourO$.add(CurrentHourO(hourNow: DateTime.now().hour));
     currentMinutes$.add(CurrentMinutesO(minutesNow: DateTime.now().minute));
-
+   int _sum = currentHourO$.value.hourNow + currentMinutes$.value.minutesNow;
+    AudioModel().play(_sum);
   }
 
   void dispose() {
@@ -31,7 +35,7 @@ class TimeModel {
 class CurrentHourO {
   final int hourNow;
 
-  const CurrentHourO({@required this.hourNow}):assert(hourNow != null);
+  const CurrentHourO({@required this.hourNow}) : assert(hourNow != null);
 
   @override
   bool operator ==(Object other) =>
@@ -47,7 +51,7 @@ class CurrentHourO {
 class CurrentMinutesO {
   final int minutesNow;
 
-  CurrentMinutesO({@required this.minutesNow}):assert(minutesNow != null) ;
+  CurrentMinutesO({@required this.minutesNow}) : assert(minutesNow != null);
 
   @override
   bool operator ==(Object other) =>

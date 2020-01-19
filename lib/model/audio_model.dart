@@ -4,26 +4,21 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 import 'package:clock_oleg/provider/provider_main.dart';
 import 'package:clock_oleg/model/time_model.dart';
-
+import 'package:flutter/material.dart';
 
 class AudioModel {
-//  var _hour = Provider<int>.value(value: CurrentHourO().hourNow);
- // var _minutes = Provider<int>.value(value: CurrentMinutesO().minutesNow);
-  AudioPlayer myPlayer = AudioPlayer();
- // Timer timer;
-
-  AudioModel() {
-
-   // timer = Timer.periodic(Duration(seconds: 10), (timer) => play());
-
+  final AudioPlayer myPlayer = AudioPlayer();
+  play(int sampleId)  {
+    switch(sampleId) {
+      case 47: { startPlay("bass.wav"); }
+      break;
+    }
   }
 
-  play() async {
-await AudioCache(prefix: "samples/").play("bass.wav");
+  void startPlay(String sampleName) async{
+    await AudioCache(prefix: "samples/").play(sampleName);
   }
-
   void dispose() {
- //   timer.cancel();
-
+    myPlayer.dispose();
   }
 }
